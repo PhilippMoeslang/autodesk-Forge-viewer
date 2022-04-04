@@ -1,12 +1,22 @@
-
-
-<button type="button" class="btn btn-info" (click)="authorize()">Authorize me!</button>
-
-<div class="container-sm">
-<div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="ClinetID" aria-label="ClinetID">
-<div class="input-group mb-3">
-   <input type="text" class="form-control" placeholder="Client Secret" aria-label="Client Secret">
-<div class="input-group mb-3">
-   <input type="text" class="form-control" placeholder="URN" aria-label="URN">
+<div class="container-sm input-field">
+  <h3>Client Credentials</h3>
+  <!-- <div class="input-group mb-3 input-container">
+    <input type="text" class="form-control" placeholder="ClientID" aria-label="ClientID">
+  </div>
+  <div class="input-group mb-3 input-container">
+    <input type="text" class="form-control" placeholder="Client Secret" aria-label="Client Secret">
+  </div> -->
+  <div class="input-group mb-3 input-container">
+    <input type="text" class="form-control" placeholder="Access Token" aria-label="Access Token" formControlName="accessToken">
+  </div>
+  <div class="input-group mb-3 input-container">
+    <input type="text" class="form-control" placeholder="URN" aria-label="URN" formControlName="urn">
+  </div>
+  <div class="button-container">
+    <button type="button" class="btn btn-info button-margin">Submit Input</button>
+    <button type="button" class="btn btn-info button-margin" (click)="authorize()">Authorize me!</button>
+  </div>
+  <div class="link-container">
+    <h6><a href="https://autodesk-forge.github.io/learn.forge.viewmodels/">Get your Access Token</a></h6>
+  </div>
 </div>
