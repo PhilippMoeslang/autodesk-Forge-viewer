@@ -1,24 +1,32 @@
-<div class="container-sm input-field">
-  <h3>Client Credentials</h3>
-  <!-- <div class="input-group mb-3 input-container">
-    <input type="text" class="form-control" placeholder="ClientID" aria-label="ClientID">
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand">Forge Viewer</a>
   </div>
-  <div class="input-group mb-3 input-container">
-    <input type="text" class="form-control" placeholder="Client Secret" aria-label="Client Secret">
-  </div> -->
-  <form [formGroup]="clientCredentialsForm">
-  <div class="input-group mb-3 input-container">
-    <input type="text" class="form-control" placeholder="Access Token" aria-label="Access Token" formControlName="accessToken">
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col">
+    
+        <!-- <form [formGroup]="clientCredentialsForm"> -->
+          <div class="button-container">
+            <!-- <button type="button" class="btn btn-info button-margin">Submit Input</button> -->
+            <button *ngIf="!getBucketItems"type="button" class="btn btn-info button-margin" (click)="check()">Get Data!</button>
+            <button *ngIf="!callViewer && getBucketItems" type="button" class="btn btn-info button-margin" (click)="authorize()">Authorize me!</button>
+            <!-- <p>Select Model</p> -->
+            <select class="form-select select" aria-label="Default select example">
+              <option selected>Select Model</option>
+              <option *ngFor="let model of itemUrnAndKey">{{item}}</option>
+            </select>
+          </div>
+        <!-- </form> -->
+    </div>
+    <div class="row">
+      <div class="col">
+        <div *ngIf="callViewer" class="viewer-window">
+          <app-viewer [accessToken]="httpAccessToken"
+                      [modelUrn]=""></app-viewer>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="input-group mb-3 input-container">
-    <input type="text" class="form-control" placeholder="URN" aria-label="URN" formControlName="urn">
-  </div>
-  <div class="button-container">
-    <button type="button" class="btn btn-info button-margin">Submit Input</button>
-    <button type="button" class="btn btn-info button-margin" (click)="authorize()">Authorize me!</button>
-  </div>
-  <div class="link-container">
-    <h6><a href="https://autodesk-forge.github.io/learn.forge.viewmodels/">Get your Access Token</a></h6>
-  </div>
-</form>
 </div>
