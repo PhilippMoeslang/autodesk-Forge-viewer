@@ -6,6 +6,7 @@
   <div class="input-group mb-3 input-container">
     <input type="text" class="form-control" placeholder="Client Secret" aria-label="Client Secret">
   </div> -->
+  <form [formGroup]="clientCredentialsForm">
   <div class="input-group mb-3 input-container">
     <input type="text" class="form-control" placeholder="Access Token" aria-label="Access Token" formControlName="accessToken">
   </div>
@@ -19,4 +20,5 @@
   <div class="link-container">
     <h6><a href="https://autodesk-forge.github.io/learn.forge.viewmodels/">Get your Access Token</a></h6>
   </div>
+</form>
 </div>
