@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import {
   ViewerOptions,
   ViewerInitializedEvent,
@@ -11,8 +11,8 @@ import { MyExtension } from "src/app/my-extension";
 
 // Insert a token and a document URN here
 // Then refresh the app
-export const ACCESS_TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJkYXRhOnJlYWQiLCJkYXRhOndyaXRlIiwiZGF0YTpjcmVhdGUiLCJidWNrZXQ6cmVhZCIsImJ1Y2tldDpjcmVhdGUiXSwiY2xpZW50X2lkIjoiU1N3eHdydDBidDNWNzNRT1pBN0VHb0EyQXlVYnpIN3MiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvYWp3dGV4cDYwIiwianRpIjoid0VURW9oY1ZEYWpjdmZYRW9jdWZGQ3BuUnd3VUhWdUc3VEFvelk0ZDhSU1RMbzkwY1FnWVA3T2dJR240aUUyaSIsImV4cCI6MTY0OTA4ODk0OH0.Dkge1AtsGoyp2HDSgDQJkzNM76v2tAcxJF_u2Bkx1ss6QCQrssenFQ8TYxinF_5DNpXlBlICuv02I0Qv5-QQ7ni6kGfFlU1xR-aUpyHwLIKKZ0dI8cS9hD8LvtkRnSfY-mCYQcBtHNoppPyRTpVSX4Hlu18OeOl12R_HF44Xu1lkYe72jijfWYk_5todnasdJfgInjAyTdng-5ICns9aAvIVpZ7JVfT1KC7fd7DbukQcz6yzG699RJMS5bUZ0DSKdgMFsjyl1WaRX8011TI0zThhOGxGKjIDfycyRY_tmXghDRtDhnOIL5D3IgR2upVvBW7xNAxDEGnA-8lDzOtoIg";
-export const DOCUMENT_URN = "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6c3N3eHdydDBidDN2NzNxb3phN2Vnb2EyYXl1YnpoN3MtZW1lYWdlaWdlcmdydXBwZS8yMDIyMDMyMV9Cb2RlbnZpc3VhbGlzaWVydW5nX1Y1X0tXMDktMTJtaXRWb3JzY2hhdS5ydnQ";
+//export const ACCESS_TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJkYXRhOnJlYWQiLCJkYXRhOndyaXRlIl0sImNsaWVudF9pZCI6IlNTd3h3cnQwYnQzVjczUU9aQTdFR29BMkF5VWJ6SDdzIiwiYXVkIjoiaHR0cHM6Ly9hdXRvZGVzay5jb20vYXVkL2Fqd3RleHA2MCIsImp0aSI6IlZlU1k5aEdEUUU3dWc4djk0eFlWcUNPeGhtN3N3Z0tyS2MydTQzYTJUNDhxUUhMYnpNaDVhSWhKaXZmQjFuRkQiLCJleHAiOjE2NDkxNDQ2MjJ9.QGZQzVI-rmUQZJLfj3vTtKJUsnKhXQGN-c5MjWc2eguAQvYJafDQNu0nLMHD9zpnigoqt7TtBk7LTkWqQ6PtPDNMDW0MSRwZYI4bQ7qiH3gKTdkd59DFhPVfq7iGczdX-jDOYo6XDNLAKzrvdCTe9YYWuvzxib4jUhQVL_jRIHzrW_Cll5IEB4MCCXrdo6kaiErZchnYKRyBb21xMhR31Ccl0t6h-qapDVDV371FeBlYfPrqbtCC4RuYv6eNjX8R8CfpeItmnqRVyAOsefhcGkMAqT8QhvVuyhwi982jTWb-vsT4q-Znz7i3_7oy3eRBBhjfh3NbmbQcB4BqX374Jg";
+export const MODEL_URN = "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6c3N3eHdydDBidDN2NzNxb3phN2Vnb2EyYXl1YnpoN3MtZW1lYWdlaWdlcmdydXBwZS9ib3guaXB0";
 
 @Component({
   selector: 'app-viewer',
@@ -20,11 +20,24 @@ export const DOCUMENT_URN = "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6c3N3eHdydDBidDN
   styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent {
+
   name = "Angular Forge Viewer";
+
   public viewerOptions: ViewerOptions;
+
   public documentId: string;
 
+  @Input() public accessToken: string;
+
+  @Input() public modelUrn: string;
+
+  public ACCESS_TOKEN: string;
+
+  public MODEL_URN: string;
+
   public ngOnInit() {
+    this.ACCESS_TOKEN = this.accessToken;
+    this.MODEL_URN = this.modelUrn
     this.viewerOptions = {
       initializerOptions: {
         env: "AutodeskProduction",
@@ -32,7 +45,7 @@ export class ViewerComponent {
           onGetAccessToken: (token: string, expire: number) => void
         ) => {
           const expireTimeSeconds = 60 * 30;
-          onGetAccessToken(ACCESS_TOKEN, expireTimeSeconds);
+          onGetAccessToken(this.ACCESS_TOKEN, expireTimeSeconds);
         },
         api: "derivativeV2",
         enableMemoryManagement: true
@@ -46,7 +59,7 @@ export class ViewerComponent {
         Extension.registerExtension(MyExtension.extensionName, MyExtension);
       },
       onViewerInitialized: (args: ViewerInitializedEvent) => {
-        args.viewerComponent.DocumentId = DOCUMENT_URN;
+        args.viewerComponent.DocumentId = MODEL_URN;//DOCUMENT_URN;
       },
       // showFirstViewable: false,
       // headlessViewer: true,

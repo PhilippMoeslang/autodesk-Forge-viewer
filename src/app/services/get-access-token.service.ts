@@ -7,29 +7,52 @@ import { Observable } from 'rxjs';
 })
 export class GetAccessTokenService {
 
-  //public tokenURL: string = 'https://developer.api.autodesk.com/authentication/v1/authenticate'
+  //public accessTokenURL: string = 'https://developer.api.autodesk.com/authentication/v1/authenticate'
+
   public tokenURL: string = 'https://geiger-forge-integration-bi.azurewebsites.net/api/forge/oauth'
+
+  public ossBucktKeyURL: string = 'https://developer.api.autodesk.com/oss/v2/buckets'
+
+  //public bucketURL: string = `https://developer.api.autodesk.com/oss/v2/buckets/${ossBucketKey}/objects` //sswxwrt0bt3v73qoza7egoa2ayubzh7s-emeageigergruppe
+
 
   constructor(public http: HttpClient) { }
 
+  /**
+   * Retrieve access token
+   * @returns 
+   */
   getAccessToken(): Observable<any> {
+    return this.http.get(this.tokenURL, {responseType: 'text'})
+  }
+
+  /**
+   * Retrieve ossBucketKey
+   * @param accessToken 
+   * @returns 
+   */
+  getOssBucketKey(accessToken: string): Observable<any> {
     const options = {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
-        'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization, X-Request-With'
-
+        'Authorization': 'Bearer ' + accessToken
     },
-      body: {
-        "client_id": "SSwxwrt0bt3V73QOZA7EGoA2AyUbzH7s",
-        "client_secret": "DTi7XFXTbhqxA5gT",
-        "grant_type": "client_credentials",
-        "scope": "code:all data:write data:read bucket:create bucket:delete bucket:read"
-      },
+    }
+    return this.http.get(this.ossBucktKeyURL, options)
   }
-    //console.log(body)
-    //return this.http.post(this.tokenURL, options)
-    return this.http.get(this.tokenURL, {responseType: 'text'})
+
+  /**
+   * Retrieve items from bucket
+   * @param accessToken 
+   * @param ossBucketKey 
+   * @returns 
+   */
+  getItemsinBucket(accessToken: string, ossBucketKey: string): Observable<any> {
+    const bucketURL = `https://developer.api.autodesk.com/oss/v2/buckets/${ossBucketKey}/objects`
+    const options = {
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+    },
+    }
+    return this.http.get(bucketURL, options)
   }
 }
