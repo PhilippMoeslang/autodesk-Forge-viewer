@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class GetAccessTokenService {
 
-  public tokenURL: string = 'https://developer.api.autodesk.com/authentication/v1/authenticate'
+  //public tokenURL: string = 'https://developer.api.autodesk.com/authentication/v1/authenticate'
+  public tokenURL: string = 'https://geiger-forge-integration-bi.azurewebsites.net/api/forge/oauth'
 
   constructor(public http: HttpClient) { }
 
@@ -28,6 +29,7 @@ export class GetAccessTokenService {
       },
   }
     //console.log(body)
-    return this.http.post(this.tokenURL, options)
+    //return this.http.post(this.tokenURL, options)
+    return this.http.get(this.tokenURL, {responseType: 'text'})
   }
 }
