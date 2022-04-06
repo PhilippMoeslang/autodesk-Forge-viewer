@@ -29,6 +29,10 @@ export class OAuthComponent implements OnInit {
 
   public itemUrnAndKey: [] = [];
 
+  public itemGuids: [] = [];
+
+  public itemMetadata: {} = {};
+
   constructor(private router: Router,
               public accessService: GetAccessTokenService) { }
 
@@ -73,5 +77,38 @@ export class OAuthComponent implements OnInit {
   }, 1000)
   this.getBucketItems = true;
   }
+
+  public metadata() {
+    if (this.itemUrnAndKey!==undefined) {
+      Object.keys(this.itemUrnAndKey).forEach(key1 => {
+        this.accessService.getGuid(this.httpAccessToken, this.itemUrnAndKey[key1])
+        .subscribe(data => {
+          console.log(data);
+          if (data.data.metadata){
+            Object.keys(data.data.metadata).forEach(key => {
+              this.itemGuids = data.data.metadata[key].guid
+              console.log(this.itemGuids)
+            })  
+            console.log(this.itemGuids)
+            
+          }
+
+
+      })
+
+      })
+    }
+
+  /*
+  setTimeout(() => {
+    this.accessService.getMetaData(this.httpAccessToken, this.itemUrnAndKey[0], this.itemGuid)
+    .subscribe(data => {
+      this.itemMetadata = data;
+      console.log(data);
+    })
+
+  }, 1000)*/
+}
+
 
 }

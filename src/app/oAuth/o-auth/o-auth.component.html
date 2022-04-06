@@ -11,6 +11,7 @@
           <div class="button-container">
             <!-- <button type="button" class="btn btn-info button-margin">Submit Input</button> -->
             <button *ngIf="!getBucketItems"type="button" class="btn btn-info button-margin" (click)="check()">Get Data!</button>
+            <button *ngIf="callViewer && getBucketItems"type="button" class="btn btn-info button-margin" (click)="metadata()">Get Metadata!</button>
             <button *ngIf="!callViewer && getBucketItems" type="button" class="btn btn-info button-margin" (click)="authorize()">Authorize me!</button>
             <!-- <p>Select Model</p> -->
             <select class="form-select select" aria-label="Default select example">

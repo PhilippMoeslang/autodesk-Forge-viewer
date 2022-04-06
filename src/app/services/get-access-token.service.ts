@@ -55,4 +55,24 @@ export class GetAccessTokenService {
     }
     return this.http.get(bucketURL, options)
   }
+
+  getGuid(accessToken: string, itemUrn: string): Observable<any> {
+    const bucketURL = `https://developer.api.autodesk.com/modelderivative/v2/designdata/${itemUrn}/metadata`
+    const options = {
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+    },
+    }
+    return this.http.get(bucketURL, options)
+  }
+
+  getMetaData(accessToken: string, itemUrn: string, guid: string): Observable<any> {
+    const bucketURL = `https://developer.api.autodesk.com/modelderivative/v2/designdata/${itemUrn}/${guid}/properties`
+    const options = {
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+    },
+    }
+    return this.http.get(bucketURL, options)
+  }
 }
